@@ -1,12 +1,10 @@
-[vars]
-
-[group:jl]
+[jl]
 root@192.168.60.17=redhat
 
-[group:jmc]
+[jmc]
 root@192.168.60.17=redhat
 root@192.168.60.16=redhat
 root@192.168.60.21=redhat
 
-[group:gac]
+[gac]
 root@192.168.60.17=redhat

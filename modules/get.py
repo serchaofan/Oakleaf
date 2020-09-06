@@ -17,21 +17,8 @@ def get_confparser():
 
 def get_groups():
     confparser = get_confparser()
-    sections = confparser.sections()
-    groups = [section for section in sections if re.match('^group', section)]
+    groups = confparser.sections()
     return groups
-
-
-def get_hosts(group):
-    confparser = get_confparser()
-    hosts = confparser.options(group)
-    return hosts
-
-
-def get_hosts_by_group(group):
-    confparser = get_confparser()
-    hosts = confparser.items(f'group:{group}')
-    return hosts
 
 
 def get_pass(group, host):
@@ -40,30 +27,60 @@ def get_pass(group, host):
     return password
 
 
+def get_hosts(group):
+    confparser = get_confparser()
+    hosts = confparser.options(group)
+    for host in hosts:
+        group_name = group
+        hostip = re.match('(.*)@(.*)', host).group(2)
+        user = re.match('(.*)@(.*)', host).group(1)
+        password = get_pass(group, host)
+        index = hosts.index(host)
+        hosts[index] = dict(hostip=hostip, group=group_name,
+                            user=user, password=password)
+    return hosts
+
+
+def all_hosts_set():
+    hosts = []
+    for group in get_groups():
+        for host in get_hosts(group):
+            hosts.append(host)
+    for i in len(hosts):
+        host = hosts[i]
+        for j in range(i + 1, len(hosts) + 1):
+            host_a = hosts[j]
+            if host_a['hostip'] == host['hostip']:
+                hosts.pop(host_a)
+
+    return hosts
+
+
 def print_hosts(args):
     groups = get_groups()
     if not args.group:
         print("GROUP\t\tHOSTIP\t\t\tUSER\t\tPASSWORD")
         for group in groups:
-            for host in get_hosts(group):
-                group_name = re.match('(^group):(.*)', group).group(2)
-                hostip = re.match('(.*)@(.*)', host).group(2)
-                user = re.match('(.*)@(.*)', host).group(1)
-                password = get_pass(group, host)
+            hosts = get_hosts(group)
+            for host in hosts:
+                group_name = host['group']
+                hostip = host['hostip']
+                user = host['user']
+                password = host['password']
                 print(f"{group_name}\t\t{hostip}\t\t{user}\t\t{password}")
     else:
-        if f"group:{args.group}" not in groups:
+        if args.group not in groups:
             print(f"No Group {args.group}")
         else:
             print("GROUP\t\tHOSTIP\t\t\tUSER\t\tPASSWORD")
-            hosts = get_hosts_by_group(args.group)
+            hosts = get_hosts(args.group)
             for host in hosts:
-                group = args.group
-                hostip = re.match('(.*)@(.*)', host[0]).group(2)
-                user = re.match('(.*)@(.*)', host[0]).group(1)
-                password = host[1]
+                group_name = host['group']
+                hostip = host['hostip']
+                user = host['user']
+                password = host['password']
                 print(
-                    f"{group}\t\t{hostip}\t\t{user}\t\t{password}")
+                    f"{group_name}\t\t{hostip}\t\t{user}\t\t{password}")
 
 
 def print_groups(args):
@@ -71,16 +88,15 @@ def print_groups(args):
     if not args.group:
         print("GROUP\t\tHOSTS")
         for group in groups:
-            group_name = re.match('(^group):(.*)', group).group(2)
+            group_name = group
             hosts = len(get_hosts(group))
-            print(
-                f"{group_name}\t\t{hosts}")
+            print(f"{group_name}\t\t{hosts}")
     else:
-        if f"group:{args.group}" not in groups:
+        if args.group not in groups:
             print(f"No Group {args.group}")
         else:
             print("GROUP\t\tHOSTS")
-            group = f"group:{args.group}"
+            group = args.group
             hosts = len(get_hosts(group))
             print(
                 f"{args.group}\t\t{hosts}")
