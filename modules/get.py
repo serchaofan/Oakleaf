@@ -1,6 +1,7 @@
 import configparser
 import re
 import os
+import pandas as pd
 
 
 def get_confparser():
@@ -11,7 +12,11 @@ def get_confparser():
         print("hosts file doesn't exists, make sure hosts is well configed")
         exit(0)
     else:
-        confparser.read(hosts_path)
+        try:
+            confparser.read(hosts_path)
+        except Exception as e:
+            print(e)
+            exit(0)
     return confparser
 
 
@@ -46,13 +51,9 @@ def all_hosts_set():
     for group in get_groups():
         for host in get_hosts(group):
             hosts.append(host)
-    for i in len(hosts):
-        host = hosts[i]
-        for j in range(i + 1, len(hosts) + 1):
-            host_a = hosts[j]
-            if host_a['hostip'] == host['hostip']:
-                hosts.pop(host_a)
-
+    df = pd.DataFrame(hosts)
+    df = df.drop_duplicates('hostip')
+    hosts = df.to_dict(orient='records')
     return hosts
 
 

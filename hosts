@@ -1,5 +1,6 @@
 [jl]
 root@192.168.60.17=redhat
+root@192.168.60.21=redhat
 
 [jmc]
 root@192.168.60.17=redhat
@@ -8,3 +9,4 @@ root@192.168.60.21=redhat
 
 [gac]
 root@192.168.60.17=redhat
+root@192.168.60.21=redhat
