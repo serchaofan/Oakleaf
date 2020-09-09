@@ -33,3 +33,27 @@ def run_ping(args):
                 run_start_ping(host)
             except Exception as e:
                 print(f"Check hosts file, There're Something Wrong with {e}")
+
+
+def run_command(args):
+    pass
+
+
+def run_script(args):
+    pass
+
+
+def run_file(args):
+    pass
+
+
+def run_copy(args):
+    pass
+
+
+def run_sysinfo(args):
+    pass
+
+
+def run_loadinfo(args):
+    pass
