@@ -11,3 +11,5 @@ oakleaf目前支持命令
   - ping
   - command
   - script
+  - sysinfo
+  - loadinfo

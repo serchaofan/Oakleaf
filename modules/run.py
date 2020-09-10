@@ -2,37 +2,19 @@ import re
 import os
 from .get import get_groups, get_hosts, get_pass, all_hosts_set
 from fabric import Connection
+from modules.utils import connect
 
 
 def run_ping(args):
-    def run_start_ping(host):
-        hostip = host['hostip']
-        user = host['user']
-        password = host['password']
-        c = Connection(host=hostip, user=user,
-                       connect_kwargs={"password": password, 'timeout': 2})
-        try:
-            if c.run('uname -s', hide=True):
-                print(f"[+] {hostip} SSH Connected Successfully!")
-        except Exception:
-            print(f"[-] {hostip} SSH Connection Failed!")
-        except KeyboardInterrupt:
-            print("Ctrl-C")
-            exit(0)
     if args.all:
         hosts = all_hosts_set()
         for host in hosts:
-            try:
-                run_start_ping(host)
-            except Exception as e:
-                print(f"Check hosts file, There're Something Wrong with {e}")
+            connect.runner(host=host, command='uname -s')
+
     else:
         hosts = get_hosts(args.group)
         for host in hosts:
-            try:
-                run_start_ping(host)
-            except Exception as e:
-                print(f"Check hosts file, There're Something Wrong with {e}")
+            connect.runner(host=host, command='uname -s')
 
 
 def run_command(args):
