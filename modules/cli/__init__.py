@@ -1,5 +1,4 @@
 import argparse
-from modules import get, run
 from modules.cli import getcli
 from modules.cli import runcli
 
@@ -67,3 +66,6 @@ class RunCLI(CLI):
         self.parser_loadinfo = self.subparsers_run.add_parser(
             "loadinfo", help="Get System Load Info from Hosts")
         runcli.parser_loadinfo_options(self.parser_loadinfo)
+
+        args = self.parser.parse_args()
+        args.func(args)
