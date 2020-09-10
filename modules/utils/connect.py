@@ -28,7 +28,7 @@ def runner(host, command):
             callback.runner_on_ok(conn)
     except Exception as e:
         traceback.format_exc()
-        callback.runner_on_failed(conn)
+        callback.runner_on_failed(conn, e)
     except KeyboardInterrupt:
         print("Ctrl-C")
         exit(0)
