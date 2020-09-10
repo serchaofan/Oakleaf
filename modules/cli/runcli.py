@@ -15,7 +15,7 @@ def parser_command_options(parser):
     parser.add_argument("-g", "--group")
     parser.add_argument("-a", "--all", action="store_true")
     parser.add_argument("-H", "--host")
-    parser.add_argument("command")
+    parser.add_argument("command", nargs=argparse.REMAINDER)
     parser.set_defaults(func=run.run_command)
 
 

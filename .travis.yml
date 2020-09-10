@@ -1,11 +1,5 @@
 sudo: required
 language: python
-# services:
-#   - docker
-# addons:
-#   apt:
-#     packages:
-#       - docker-ce
 python:
   - "3.8"
 os:
