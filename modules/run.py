@@ -22,7 +22,8 @@ def run_command(args):
     if args.all:
         hosts = all_hosts_set()
         for host in hosts:
-            connect.runner(host=host, command=command)
+            print(f"[{host['hostip']} >> {command}]")
+            connect.runner(host=host, command=command, hide=False)
 
 
 def run_script(args):

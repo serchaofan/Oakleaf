@@ -16,21 +16,22 @@ def connect_host(host):
     return conn
 
 
-def runner(host, command):
+def runner(host, command, hide=True):
     conn = connect_host(host)
     callback = CallBack()
     try:
         conn.run('uname -s', hide=True)
         if conn.is_connected:
             try:
-                if conn.run(command, hide=True):
-                    callback.runner_on_ok(conn)
+                result = conn.run(command, hide=True)
+                if result:
+                    callback.runner_on_ok(result, hide)
             except Exception as e:
-                traceback.format_exc()
+                # traceback.format_exc()
                 callback.runner_on_failed(conn, e)
             except KeyboardInterrupt:
                 print("Ctrl-C")
                 exit(0)
     except Exception as e:
         callback.runner_on_unreachable(conn, e)
-        traceback.format_exc()
+        # traceback.format_exc()

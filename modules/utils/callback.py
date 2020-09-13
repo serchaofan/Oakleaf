@@ -1,4 +1,3 @@
-import logging
 import datetime
 
 
@@ -9,10 +8,13 @@ class CallBack(object):
         self.finish = None
         self.created = datetime.datetime.now()
 
-    def runner_on_ok(self, conn):
+    def runner_on_ok(self, result, hide):
         self.finish = datetime.datetime.now()
         spendtime = (self.finish - self.created).microseconds / 1000
-        msg = f"{self.ok} {conn.host} Success {int(spendtime)}ms"
+        if 'stdout' in result.hide:
+            msg = f"{self.ok} {result.connection.host} Success {int(spendtime)}ms"
+        elif not hide:
+            msg = f"{self.ok} {result.connection.host} Success {int(spendtime)}ms\nStdout: {result.stdout}"
         print(msg)
 
     def runner_on_failed(self, conn, error):
