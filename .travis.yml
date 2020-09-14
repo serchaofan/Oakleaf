@@ -7,8 +7,8 @@ os:
 install:
   - pip install -r requirements.txt
 script:
-  - echo -e "[test]\nroot@118.24.16.115=woshigty123" > hosts
-  - cp oakleaf.py /usr/local/bin/oakleaf
+  - sudo echo -e "[test]\nroot@118.24.16.115=woshigty123" > hosts
+  - sudo cp oakleaf.py /usr/local/bin/oakleaf
   - export PATH=/usr/local/bin:$PATH
   - oakleaf -h
   - oakleaf get hosts
