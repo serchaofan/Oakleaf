@@ -10,10 +10,10 @@ script:
   - sudo echo -e "[test]\nroot@118.24.16.115=woshigty123" > hosts
   - sudo cp oakleaf.py /usr/local/bin/oakleaf
   - export PATH=/usr/local/bin:$PATH
-  - oakleaf -h
-  - oakleaf get hosts
-  - oakleaf get hosts -g jmc
-  - oakleaf get groups
-  - oakleaf get groups -g jmc
-  - oakleaf run ping -a
-  - oakleaf
+  - sudo oakleaf -h
+  - sudo oakleaf get hosts
+  - sudo oakleaf get hosts -g jmc
+  - sudo oakleaf get groups
+  - sudo oakleaf get groups -g jmc
+  - sudo oakleaf run ping -a
+  - sudo oakleaf run command -a echo hello
