@@ -7,9 +7,13 @@ os:
 install:
   - pip install -r requirements.txt
 script:
-  - echo -e "[test]\nroot@118.24.16.115=woshigty123"
-  - python oakleaf.py -h
-  - python oakleaf.py get hosts
-  - python oakleaf.py get hosts -g jmc
-  - python oakleaf.py get groups
-  - python oakleaf.py get groups -g jmc
+  - echo -e "[test]\nroot@118.24.16.115=woshigty123" > hosts
+  - cp oakleaf.py /usr/local/bin/oakleaf
+  - export PATH=/usr/local/bin:$PATH
+  - oakleaf -h
+  - oakleaf get hosts
+  - oakleaf get hosts -g jmc
+  - oakleaf get groups
+  - oakleaf get groups -g jmc
+  - oakleaf run ping -a
+  - oakleaf
