@@ -56,11 +56,21 @@ def get_hosts(group):
     for host in hosts:
         group_name = group
         hostip = re.match('(.*)@(.*)', host).group(2)
+        try:
+            hostip_port = re.match('(.*)#(.*)', hostip)
+            if hostip_port:
+                hostip = hostip_port.group(1)
+                sshport = hostip_port.group(2)
+            else:
+                sshport = 22
+        except Exception as e:
+            print(e)
+
         user = re.match('(.*)@(.*)', host).group(1)
         password = get_pass(group, host)
         index = hosts.index(host)
         hosts[index] = dict(hostip=hostip, group=group_name,
-                            user=user, password=password)
+                            user=user, password=password, sshport=sshport)
     return hosts
 
 
@@ -76,9 +86,10 @@ def all_hosts_set():
 
 
 def print_hosts(args):
+    TOPICBAR_HOSTS = "GROUP\tHOSTIP\t\tSSHPORT\tUSER\t\tPASSWORD"
     groups = get_groups()
     if not args.group:
-        print("GROUP\t\tHOSTIP\t\t\tUSER\t\tPASSWORD")
+        print(TOPICBAR_HOSTS)
         for group in groups:
             hosts = get_hosts(group)
             for host in hosts:
@@ -86,12 +97,14 @@ def print_hosts(args):
                 hostip = host['hostip']
                 user = host['user']
                 password = host['password']
-                print(f"{group_name}\t\t{hostip}\t\t{user}\t\t{password}")
+                sshport = host['sshport']
+                print(
+                    f"{group_name}\t{hostip}\t{sshport}\t{user}\t\t{password}")
     else:
         if args.group not in groups:
             print(f"No Group {args.group}")
         else:
-            print("GROUP\t\tHOSTIP\t\t\tUSER\t\tPASSWORD")
+            print(TOPICBAR_HOSTS)
             hosts = get_hosts(args.group)
             for host in hosts:
                 group_name = host['group']
@@ -99,7 +112,7 @@ def print_hosts(args):
                 user = host['user']
                 password = host['password']
                 print(
-                    f"{group_name}\t\t{hostip}\t\t{user}\t\t{password}")
+                    f"{group_name}\t{hostip}\t{sshport}\t{user}\t\t{password}")
 
 
 def print_groups(args):

@@ -7,8 +7,9 @@ def connect_host(host):
     hostip = host['hostip']
     user = host['user']
     password = host['password']
+    sshport = host['sshport']
     try:
-        conn = Connection(host=hostip, user=user,
+        conn = Connection(host=hostip, user=user, port=sshport,
                           connect_kwargs={"password": password, 'timeout': 1})
     except Exception as e:
         traceback.format_exc()

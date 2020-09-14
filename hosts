@@ -3,7 +3,7 @@ root@192.168.60.17=redhat
 root@192.168.60.14=redhat
 
 [jmc]
-root@192.168.60.17=redhat
+root@192.168.60.17#2222=redhat
 root@192.168.60.14=redhat
 root@192.168.60.21=redhat
 
