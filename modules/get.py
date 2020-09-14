@@ -111,6 +111,7 @@ def print_hosts(args):
                 hostip = host['hostip']
                 user = host['user']
                 password = host['password']
+                sshport = host['sshport']
                 print(
                     f"{group_name}\t{hostip}\t{sshport}\t{user}\t\t{password}")
 
