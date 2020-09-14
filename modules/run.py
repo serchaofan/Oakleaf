@@ -5,25 +5,27 @@ from fabric import Connection
 from modules.utils import connect
 
 
-def run_ping(args):
-    if args.all:
-        hosts = all_hosts_set()
-        for host in hosts:
-            connect.runner(host=host, command='uname -s')
-
-    else:
-        hosts = get_hosts(args.group)
-        for host in hosts:
-            connect.runner(host=host, command='uname -s')
-
-
-def run_command(args):
-    command = ' '.join(args.command)
+def executor(args, command, hide=True):
     if args.all:
         hosts = all_hosts_set()
         for host in hosts:
             print(f"[{host['hostip']} >> {command}]")
-            connect.runner(host=host, command=command, hide=False)
+            connect.runner(host=host, command=command, hide=hide)
+
+    else:
+        hosts = get_hosts(args.group)
+        for host in hosts:
+            print(f"[{host['hostip']} >> {command}]")
+            connect.runner(host=host, command=command, hide=hide)
+
+
+def run_ping(args):
+    executor(args, 'uname -s')
+
+
+def run_command(args):
+    command = ' '.join(args.command)
+    executor(args, command, hide=False)
 
 
 def run_script(args):

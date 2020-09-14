@@ -11,7 +11,7 @@ class CallBack(object):
     def runner_on_ok(self, result, hide):
         self.finish = datetime.datetime.now()
         spendtime = (self.finish - self.created).microseconds / 1000
-        if 'stdout' in result.hide:
+        if hide:
             msg = f"{self.ok} {result.connection.host} Success {int(spendtime)}ms"
         elif not hide:
             msg = f"{self.ok} {result.connection.host} Success {int(spendtime)}ms\nStdout: {result.stdout}"
