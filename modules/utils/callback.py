@@ -28,3 +28,9 @@ class CallBack(object):
         spendtime = (self.finish - self.created).microseconds / 1000
         msg = f"{self.failed} {conn.host} UnReachable {int(spendtime+1000*conn.connect_kwargs['timeout'])}ms\nReason: {error}"
         print(msg)
+
+    def runner_on_ok_file(self, result):
+        self.finish = datetime.datetime.now()
+        spendtime = (self.finish - self.created).microseconds / 1000
+        msg = f"{self.ok} {result.connection.host} Success {int(spendtime)}ms remote: {result.remote}"
+        print(msg)

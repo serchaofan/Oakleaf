@@ -51,6 +51,10 @@ class RunCLI(CLI):
             "script", help="Run Script on Hosts")
         runcli.parser_script_options(self.parser_script)
 
+        self.parser_gitscript = self.subparsers_run.add_parser(
+            "gitscript", help="Run Script From Github")
+        runcli.parser_gitscript_options(self.parser_gitscript)
+
         self.parser_copy = self.subparsers_run.add_parser(
             "copy", help="Copy Files to Hosts")
         runcli.parser_copy_options(self.parser_copy)

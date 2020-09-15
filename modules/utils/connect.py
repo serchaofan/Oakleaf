@@ -36,3 +36,23 @@ def runner(host, command, hide=True):
     except Exception as e:
         callback.runner_on_unreachable(conn, e)
         # traceback.format_exc()
+
+
+def transfer(host, file, remote="/tmp/"):
+    conn = connect_host(host)
+    callback = CallBack()
+    try:
+        conn.run('uname -s', hide=True)
+        if conn.is_connected:
+            try:
+                result = conn.put(file, remote=remote)
+                if result:
+                    callback.runner_on_ok_file(result)
+            except Exception as e:
+                # traceback.format_exc()
+                callback.runner_on_failed(conn, e)
+            except KeyboardInterrupt:
+                print("Ctrl-C")
+                exit(0)
+    except Exception as e:
+        callback.runner_on_unreachable(conn, e)
