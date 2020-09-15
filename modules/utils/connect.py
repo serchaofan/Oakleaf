@@ -10,7 +10,7 @@ def connect_host(host):
     sshport = host['sshport']
     try:
         conn = Connection(host=hostip, user=user, port=sshport,
-                          connect_kwargs={"password": password, 'timeout': 3})
+                          connect_kwargs={"password": password, 'timeout': 2})
     except Exception as e:
         traceback.format_exc()
         exit(0)

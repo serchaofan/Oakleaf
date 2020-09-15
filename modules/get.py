@@ -4,24 +4,6 @@ import os
 import pandas as pd
 
 
-class OakleafGet():
-    def __init__(self):
-        self.confparser = configparser.ConfigParser()
-        self.root_path = os.path.abspath(
-            os.path.dirname(os.path.dirname(__file__)))
-        self.hosts_path = f"{root_path}/hosts"
-        self.groups = get_groups()
-        if not os.path.exists(hosts_path):
-            print("hosts file doesn't exists, make sure hosts is well configed")
-            exit(0)
-        else:
-            try:
-                confparser.read(hosts_path)
-            except Exception as e:
-                print(e)
-                exit(0)
-
-
 def get_confparser():
     confparser = configparser.ConfigParser()
     root_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
