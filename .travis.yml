@@ -4,12 +4,10 @@ python:
 os:
   - linux
 install:
-  - pip install -r requirements.txt
+  - pip install -r requirements.txt &> /dev/null
 script:
   - sudo echo -e "[test]\nroot@118.24.16.115#2222=WOSHIgty123" > hosts
   - cat hosts
-  - sudo cp oakleaf.py /usr/local/bin/oakleaf
-  - export PATH=/usr/local/bin:$PATH
   - python oakleaf.py -h
   - python oakleaf.py get hosts
   - python oakleaf.py get hosts -g test
