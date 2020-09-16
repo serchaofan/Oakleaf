@@ -9,13 +9,15 @@ def executor(args, command, hide=True):
     if args.all:
         hosts = all_hosts_set()
         for host in hosts:
-            print(f"[{host['hostip']} >> {command}]")
+            print(
+                f"[\033[1;32m{host['hostip']}\033[0m >> \033[7;32m{command}\033[0m]")
             connect.runner(host=host, command=command, hide=hide)
 
     else:
         hosts = get_hosts(args.group)
         for host in hosts:
-            print(f"[{host['hostip']} >> {command}]")
+            print(
+                f"[\033[1;32m{host['hostip']}\033[0m >> \033[7;32m{command}\033[0m]")
             connect.runner(host=host, command=command, hide=hide)
 
 
@@ -23,7 +25,8 @@ def transferor(args):
     if args.all:
         hosts = all_hosts_set()
         for host in hosts:
-            print(f"[{host['hostip']} >> {args.file}]")
+            print(
+                f"[\033[1;32m{host['hostip']}\033[0m >> \033[7;32m{args.file}\033[0m]")
             if args.dest:
                 connect.transfer(host=host, file=args.file, remote=args.dest)
             else:
@@ -32,7 +35,8 @@ def transferor(args):
     else:
         hosts = get_hosts(args.group)
         for host in hosts:
-            print(f"[{host['hostip']} >> {args.file}]")
+            print(
+                f"[\033[1,32m{host['hostip']}\033[0m >> \033[7;32m{args.file}\033[0m]")
             if args.dest:
                 connect.transfer(host=host, file=args.file, remote=args.dest)
             else:
