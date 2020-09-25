@@ -6,17 +6,20 @@ from modules.cli import runcli
 class CLI():
     def __init__(self, callback=None):
         self.parser = argparse.ArgumentParser(
-            prog="oakleaf", description="Oakleaf")
+            prog="oakleaf", description="Oakleaf Is An Ops Tool , Writen In Python.", epilog="Github: https://github.com/serchaofan/oakleaf.")
         self.callback = callback
         self.subparsers = self.parser.add_subparsers(
             title="Oakleaf Sub Command", metavar="")
 
         self.subparser_get = self.subparsers.add_parser(
-            "get", help="Get Infomation")
-        self.subparsers_get = self.subparser_get.add_subparsers(metavar="")
+            "get", help="Get Infomation", prog='get')
+        self.subparsers_get = self.subparser_get.add_subparsers(metavar="", )
         self.subparser_run = self.subparsers.add_parser(
             "run", help="Execute Scripts and Commands on target servers")
         self.subparsers_run = self.subparser_run.add_subparsers(metavar="")
+
+    def print_help(self):
+        self.parser.print_help()
 
 
 class GetCLI(CLI):
@@ -32,7 +35,10 @@ class GetCLI(CLI):
         getcli.parser_groups_options(self.parser_groups)
 
         args = self.parser.parse_args()
-        args.func(args)
+        if not args._get_kwargs():
+            self.subparser_get.print_help()
+        else:
+            args.func(args)
 
 
 class RunCLI(CLI):
@@ -71,5 +77,12 @@ class RunCLI(CLI):
             "loadinfo", help="Get System Load Info from Hosts")
         runcli.parser_loadinfo_options(self.parser_loadinfo)
 
+        self.parser_chpass = self.subparsers_run.add_parser(
+            "chpass", help="Change Password of Hosts")
+        runcli.parser_chpass_options(self.parser_chpass)
+
         args = self.parser.parse_args()
-        args.func(args)
+        if not args._get_kwargs():
+            self.subparser_run.print_help()
+        else:
+            args.func(args)

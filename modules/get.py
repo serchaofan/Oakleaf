@@ -33,6 +33,16 @@ def get_pass(group, host):
 
 
 def get_hosts(group):
+    '''
+    return:
+        [{
+            'hostip': ,
+            'group': ,
+            'user': ,
+            'password': ,
+            'sshport'
+        },{...}]
+    '''
     confparser = get_confparser()
     hosts = confparser.options(group)
     for host in hosts:
@@ -57,6 +67,16 @@ def get_hosts(group):
 
 
 def all_hosts_set():
+    '''
+    return:
+        [{
+            'hostip': ,
+            'group': ,
+            'user': ,
+            'password': ,
+            'sshport'
+        },{...}]
+    '''
     hosts = []
     for group in get_groups():
         for host in get_hosts(group):
@@ -65,6 +85,23 @@ def all_hosts_set():
     df = df.drop_duplicates('hostip')
     hosts = df.to_dict(orient='records')
     return hosts
+
+
+def check_if_host_in_hosts(hostip):
+    '''
+    return:
+        {
+            'hostip': ,
+            'group': ,
+            'user': ,
+            'password': ,
+            'sshport'
+        }
+    '''
+    hosts = all_hosts_set()
+    for host in hosts:
+        if (hostip == host['hostip']):
+            return host
 
 
 def print_hosts(args):

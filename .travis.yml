@@ -15,5 +15,6 @@ script:
   - python oakleaf.py get groups
   - python oakleaf.py get groups -g test
   - python oakleaf.py run ping -A
+  - python oakleaf.py run ping -H 118.24.16.115
   - python oakleaf.py run command -A echo hello
   - python oakleaf.py run script -A -f test/server-info.sh

@@ -1,6 +1,6 @@
 import re
 import os
-from modules.get import get_groups, get_hosts, get_pass, all_hosts_set
+from modules.get import get_groups, get_hosts, get_pass, all_hosts_set, check_if_host_in_hosts
 from fabric import Connection
 from modules.utils import connect
 
@@ -13,9 +13,18 @@ def executor(args, command, hide=True):
                 f"[\033[1;32m{host['hostip']}\033[0m >> \033[7;32m{command}\033[0m]")
             connect.runner(host=host, command=command, hide=hide)
 
-    else:
+    elif args.group:
         hosts = get_hosts(args.group)
         for host in hosts:
+            print(
+                f"[\033[1;32m{host['hostip']}\033[0m >> \033[7;32m{command}\033[0m]")
+            connect.runner(host=host, command=command, hide=hide)
+    elif args.host:
+        host = check_if_host_in_hosts(args.host)
+        if not host:
+            print("No Such Host in Hosts file, Pls Add the host to hosts file")
+            exit(0)
+        else:
             print(
                 f"[\033[1;32m{host['hostip']}\033[0m >> \033[7;32m{command}\033[0m]")
             connect.runner(host=host, command=command, hide=hide)
@@ -32,7 +41,7 @@ def transferor(args):
             else:
                 connect.transfer(host=host, file=args.file)
 
-    else:
+    elif args.group:
         hosts = get_hosts(args.group)
         for host in hosts:
             print(
@@ -41,6 +50,15 @@ def transferor(args):
                 connect.transfer(host=host, file=args.file, remote=args.dest)
             else:
                 connect.transfer(host=host, file=args.file)
+    elif args.host:
+        host = check_if_host_in_hosts(args.host)
+        if not host:
+            print("No Such Host in Hosts file, Pls Add the host to hosts file")
+            exit(0)
+        else:
+            print(
+                f"[\033[1,32m{host['hostip']}\033[0m >> \033[7;32m{args.file}\033[0m]")
+            connect.transfer(host=host, file=args.file)
 
 
 def run_ping(args):
@@ -131,4 +149,8 @@ def run_loadinfo(args):
 
 
 def run_gitscript(args):
+    print(args)
+
+
+def run_chpass(args):
     print(args)

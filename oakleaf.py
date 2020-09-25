@@ -1,4 +1,4 @@
-from modules.cli import GetCLI, RunCLI
+from modules.cli import GetCLI, RunCLI, CLI
 import sys
 
 if __name__ == '__main__':
@@ -7,6 +7,11 @@ if __name__ == '__main__':
             GetCLI()
         elif sys.argv[1] == 'run':
             RunCLI()
-    else:
-        print("usage: oakleaf get|run ...")
+        elif sys.argv[1] == '-h' or sys.argv[1] == '--help':
+            CLI().print_help()
+        else:
+            print("\033[1;31mWrong Arguments\033[0m")
+            CLI().print_help()
+    elif len(sys.argv) < 2:
+        CLI().print_help()
         exit(0)

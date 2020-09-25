@@ -75,3 +75,9 @@ def parser_loadinfo_options(parser):
     parser.add_argument("-H", "--host")
     parser.add_argument("-A", "--all", action="store_true")
     parser.set_defaults(func=run.run_loadinfo)
+
+
+def parser_chpass_options(parser):
+    parser.add_argument("-g", "--group")
+    parser.add_argument("-H", "--host")
+    parser.set_defaults(func=run.run_chpass)
