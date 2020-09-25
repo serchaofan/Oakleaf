@@ -118,7 +118,7 @@ def run_copy(args):
         print("Pls Specify One File on Target Hosts")
         exit(0)
     if not os.path.exists(args.file):
-        print("Not Exists")
+        print("File Not Exists")
         exit(0)
     transferor(args)
     filename = os.path.split(args.file)[1]
