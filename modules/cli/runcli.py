@@ -28,19 +28,6 @@ def parser_script_options(parser):
     parser.set_defaults(func=run.run_script)
 
 
-def parser_gitscript_options(parser):
-    gitScript_choices = [
-        'install-nginx18',
-        'install-python38',
-        'install-docker'
-    ]
-    parser.add_argument("-g", "--group")
-    parser.add_argument("-H", "--host")
-    parser.add_argument("-A", "--all", action="store_true")
-    parser.add_argument("-n", "--name", choices=gitScript_choices)
-    parser.set_defaults(func=run.run_gitscript)
-
-
 def parser_copy_options(parser):
     parser.add_argument("-g", "--group")
     parser.add_argument("-H", "--host")
@@ -80,4 +67,14 @@ def parser_loadinfo_options(parser):
 def parser_chpass_options(parser):
     parser.add_argument("-g", "--group")
     parser.add_argument("-H", "--host")
+    parser.add_argument("-u", "--user", required=True)
+    parser.add_argument("-p", "--passwd", required=True)
     parser.set_defaults(func=run.run_chpass)
+
+
+def parser_download_options(parser):
+    parser.add_argument("-g", "--group")
+    parser.add_argument("-H", "--host")
+    parser.add_argument("-A", "--all", action="store_true")
+    parser.add_argument("--url", required=True)
+    parser.set_defaults(func=run.run_download)

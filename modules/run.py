@@ -2,7 +2,7 @@ import re
 import os
 from modules.get import get_groups, get_hosts, get_pass, all_hosts_set, check_if_host_in_hosts
 from fabric import Connection
-from modules.utils import connect
+from modules.utils import connect, scripturl
 
 
 def executor(args, command, hide=True):
@@ -141,16 +141,30 @@ def run_copy(args):
 
 
 def run_sysinfo(args):
-    pass
+    run_gitscript(args=args, script="sysinfo")
 
 
 def run_loadinfo(args):
-    pass
+    run_gitscript(args=args, script="loadinfo")
 
 
-def run_gitscript(args):
-    print(args)
-
+def run_gitscript(args, script):
+    github_url = scripturl.url[script]
+    install_curl = "yum install -y curl"
+    executor(args, install_curl)
+    download_file = f"curl -O -k -L {github_url}"
+    executor(args, download_file)
+    chmod_file = f"chmod +x ~/{script}.sh"
+    executor(args, chmod_file)
+    execute_file = f"sh ~/{script}.sh"
+    executor(args, execute_file, hide=False)
 
 def run_chpass(args):
     print(args)
+
+
+def run_download(args):
+    install_curl = "yum install -y curl"
+    executor(args, install_curl)
+    download_file = f"curl -O -k -L {args.url}"
+    executor(args, download_file)

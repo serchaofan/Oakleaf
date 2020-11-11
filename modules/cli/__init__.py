@@ -57,10 +57,6 @@ class RunCLI(CLI):
             "script", help="Run Script on Hosts")
         runcli.parser_script_options(self.parser_script)
 
-        self.parser_gitscript = self.subparsers_run.add_parser(
-            "gitscript", help="Run Script From Github")
-        runcli.parser_gitscript_options(self.parser_gitscript)
-
         self.parser_copy = self.subparsers_run.add_parser(
             "copy", help="Copy Files to Hosts")
         runcli.parser_copy_options(self.parser_copy)
@@ -80,6 +76,10 @@ class RunCLI(CLI):
         self.parser_chpass = self.subparsers_run.add_parser(
             "chpass", help="Change Password of Hosts")
         runcli.parser_chpass_options(self.parser_chpass)
+
+        self.parser_download = self.subparsers_run.add_parser(
+            "download", help="Download Files on Remote Host")
+        runcli.parser_download_options(self.parser_download)
 
         args = self.parser.parse_args()
         if not args._get_kwargs():
