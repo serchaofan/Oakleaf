@@ -7,14 +7,14 @@ install:
   - pip install -r requirements.txt &> /dev/null
 script:
   - sudo apt install -y openssl libssl-dev
-  - sudo echo -e "[test]\nroot@118.24.16.115#2222=WOSHIgty123" > hosts
+  - sudo echo -e "[test]\nroot@192.168.10.139=0okm(IJN8uhb" > hosts
   - cat hosts
   - python oakleaf.py -h
   - python oakleaf.py get hosts
   - python oakleaf.py get hosts -g test
   - python oakleaf.py get groups
   - python oakleaf.py get groups -g test
-  - python oakleaf.py run ping -A
-  - python oakleaf.py run ping -H 118.24.16.115
-  - python oakleaf.py run command -A echo hello
-  - python oakleaf.py run script -A -f scripts/server-info.sh
+  # - python oakleaf.py run ping -A
+  # - python oakleaf.py run ping -H 118.24.16.115
+  # - python oakleaf.py run command -A echo hello
+  # - python oakleaf.py run script -A -f scripts/server-info.sh
